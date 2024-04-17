@@ -38,7 +38,7 @@ function ForgotPassword() {
             type="email"
             name="email"
             placeholder="Email"
-            className=" outline-none"
+            className="outline-none h-10 border rounded-md px-4"
             value={formData.email}
             onChange={handleInputChange}
           />

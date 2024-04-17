@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import GoogleLogo from "../assets/images/GoogleLogo";
 import FacebookLogo from "../assets/images/FacebookLogo";
 import { auth, provider } from "../firebase";
@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const navigate = useNavigate();
+  const location = useLocation();
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: "",
@@ -30,7 +31,7 @@ function LoginPage() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
+    
     try {
       const result = await loginUser(formData);
       // console.log(result.token);
@@ -38,10 +39,11 @@ function LoginPage() {
       localStorage.setItem("userId", result?.user?._id);
       dispatch(storeUser({ token: result.token }));
       toast.success("Login Successfully!!!");
-      const timeoutId = setTimeout(() => {
-        window.location.href = "/";
-      }, 3500);
-      navigate;
+      // const timeoutId = setTimeout(() => {
+      //   window.location.href = "/";
+      // }, 3500);
+      const origin = location.state?.from?.pathname || "/";
+      navigate(origin, { replace: true });
       return () => clearTimeout(timeoutId);
     } catch (error) {
       toast.error(error.message);
@@ -71,9 +73,8 @@ function LoginPage() {
               localStorage.setItem("userId", res.data.user._id);
               toast.success("Login Successfully!!!");
 
-              setTimeout(() => {
-                window.location.href = "/";
-              }, 3000);
+              const origin = location.state?.from?.pathname || "/";
+              navigate(origin, { replace: true });
             } else {
               console.error("Invalid response format:", res);
               toast.error("Something went wrong");
@@ -89,27 +90,29 @@ function LoginPage() {
   return (
     <div className="log-box w-[450px] border h-[100%] border-gray-500 relative mx-auto my-[5rem] p-6 grow flex flex-col items-center">
       <h2 className="text-4xl text-center">Login</h2>
-      <form className="flex flex-col w-full" onSubmit={handleFormSubmit}>
-        <label htmlFor="email" className="flex flex-col">
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            className=" outline-none"
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-        </label>
-        <label htmlFor="password" className="flex flex-col">
-          <input
-            type="password"
-            name="password"
-            placeholder="password"
-            className=" outline-none"
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-        </label>
+      <form className="flex flex-col w-full mt-4" onSubmit={handleFormSubmit}>
+        <div className="space-y-4">
+          <label htmlFor="email" className="flex flex-col">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              className=" outline-none h-10 border rounded-md px-4"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+          </label>
+          <label htmlFor="password" className="flex flex-col">
+            <input
+              type="password"
+              name="password"
+              placeholder="password"
+              className=" outline-none h-10 border rounded-md px-4"
+              value={formData.password}
+              onChange={handleInputChange}
+            />
+          </label>
+        </div>
 
         <button
           type="submit"

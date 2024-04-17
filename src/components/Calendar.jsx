@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Calendar = ({ value, setValue, handleDateChange, booked }) => {
   const [highlightedDays, setHighlightedDays] = useState([]);
+  console.log({booked});
 
   const firstFrom = booked.length >= 0 ? booked[0]?.from : null;
 

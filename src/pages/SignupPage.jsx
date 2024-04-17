@@ -83,40 +83,42 @@ function SignupPage() {
     <div className="log-box w-[450px] border border-gray-500 relative mx-auto my-[5rem] p-6 grow flex flex-col items-center">
       <h2 className="text-4xl text-center">Sign up</h2>
       <form className="flex flex-col w-full" onSubmit={handleFormSubmit}>
-        <label htmlFor="email" className="flex flex-col">
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            className=" outline-none"
-            value={formData.email}
-            onChange={handleInputChange}
-          />
-        </label>
-        <label htmlFor="password" className="flex flex-col">
-          <input
-            type="password"
-            name="password"
-            placeholder="password"
-            className=" outline-none"
-            value={formData.password}
-            onChange={handleInputChange}
-          />
-          <span className="text-[10px] mt-[-10px] text-red-400">
-            * Password must be at least 8 characters and contain at least one
-            letter, one number, and one special character
-          </span>
-        </label>
-        <label htmlFor="confirmPassword" className="flex flex-col">
-          <input
-            type="password"
-            name="confirmPassword" // Corrected the name here
-            placeholder="Confirm password"
-            className="outline-none"
-            value={formData.confirmPassword}
-            onChange={handleInputChange}
-          />
-        </label>
+        <div className="space-y-4">
+          <label htmlFor="email" className="flex flex-col">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              className="outline-none h-10 border rounded-md px-4"
+              value={formData.email}
+              onChange={handleInputChange}
+            />
+          </label>
+          <label htmlFor="password" className="flex flex-col">
+            <input
+              type="password"
+              name="password"
+              placeholder="password"
+              className="outline-none h-10 border rounded-md px-4"
+              value={formData.password}
+              onChange={handleInputChange}
+            />
+            <span className="text-[10px] mt-1 text-red-400">
+              * Password must be at least 8 characters and contain at least one
+              letter, one number, and one special character
+            </span>
+          </label>
+          <label htmlFor="confirmPassword" className="flex flex-col">
+            <input
+              type="password"
+              name="confirmPassword" // Corrected the name here
+              placeholder="Confirm password"
+              className="outline-none h-10 border rounded-md px-4"
+              value={formData.confirmPassword}
+              onChange={handleInputChange}
+            />
+          </label>
+        </div>
 
         <button
           type="submit"

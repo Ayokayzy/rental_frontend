@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { FaCalendarDays } from "react-icons/fa6";
 import { IoMdPerson } from "react-icons/io";
-import { CreateBooking } from "../../Apis/Booking";
+import { CreateBooking, createPaymentIntent } from "../../Apis/Booking";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import format from "date-fns/format";
 import Calendar from "./Calendar";
+import { Navigate, useLocation, useNavigate } from "react-router-dom";
 
 const BookFormMain = ({ getData }) => {
+  console.log({ getData });
+  const location = useLocation();
+  const navigate = useNavigate();
   const [value, setValue] = useState("YYYY-MM-DD");
   const [selectedDate, setSelectedDate] = useState(value);
   const [isDatePickerVisible, setDatePickerVisible] = useState(false);
@@ -78,6 +82,7 @@ const BookFormMain = ({ getData }) => {
   }
   const formattedDateOut =
     selectedDateOut !== "YYYY-MM-DD" ? format(valueOut, "yyyy-MM-dd") : "";
+  console.log({ token });
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
@@ -98,16 +103,36 @@ const BookFormMain = ({ getData }) => {
       toast.error(error.message);
     }
   };
+  const handleCheckout = async (e) => {
+    e.preventDefault();
+    if (!userId)
+      return <Navigate to="/login" state={{ from: location }} replace />;
+    const formData = {
+      checkInDate: formattedDate,
+      checkOutDate: formattedDateOut,
+      numberOfGuests: sGuest,
+    };
+    console.log({ formData });
+
+    try {
+      const result = await createPaymentIntent(propId, formData, userId, token);
+      window.location.href = result.url;
+      // toast.success("Booked Successfully!!!");
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
 
   return (
     <div className="bookfm-bx pt-5">
-      <form action="" onSubmit={handleFormSubmit}>
-        <div className="check-in-out-bx rounded mb-5 w-full flex gap-[10px] items-center border border-[#272932] px-3 py-2 text-[#272932]">
+      <form action="" onSubmit={handleCheckout}>
+        <div
+          className="check-in-out-bx rounded mb-5 w-full flex gap-[10px] items-center border border-[#272932] px-3 py-2 text-[#272932] cursor-pointer"
+          onClick={handleCheckInClick}
+        >
           <FaCalendarDays className="text-[20px] text-[#272932]" />
           {formattedDate ? (
-            <div className="dat-tst" onClick={handleCheckInClick}>
-              {formattedDate}
-            </div>
+            <div className="dat-tst">{formattedDate}</div>
           ) : (
             <span
               onClick={handleCheckInClick}
@@ -127,12 +152,13 @@ const BookFormMain = ({ getData }) => {
             />
           </div>
         )}
-        <div className="check-in-out-bx rounded mb-5 w-full flex gap-[10px] items-center text-[#272932] border border-[#272932] px-3 py-2">
+        <div
+          className="check-in-out-bx rounded mb-5 w-full flex gap-[10px] items-center text-[#272932] border border-[#272932] px-3 py-2 cursor-pointer"
+          onClick={handleCheckInClickOut}
+        >
           <FaCalendarDays className="text-[20px] text-[#272932]" />
           {formattedDateOut ? (
-            <div className="dat-tst" onClick={handleCheckInClickOut}>
-              {formattedDateOut}
-            </div>
+            <div className="dat-tst">{formattedDateOut}</div>
           ) : (
             <span
               onClick={handleCheckInClickOut}
