@@ -1,18 +1,20 @@
 import EzClickLogo2 from "../assets/images/EzClickLogo2.png";
+import { FaPhone, FaLocationDot } from "react-icons/fa6";
+import { MdEmail } from "react-icons/md";
 const Footer = () => {
   return (
     <footer className="bg-[#272932] ">
       <div className="mx-auto w-full p-4 py-6 lg:py-8">
-        <div className="md:flex md:justify-between">
-          <div className="mb-6 md:mb-0 w-full">
-            <img src={EzClickLogo2} className="h-12 me-3 w-[100px]" alt="" />
+        <div className="md:flex md:justify-between gap-6">
+          <div className="md:w-1/2">
+            <img src={EzClickLogo2} className="h-12 me-3" alt="" />
             <p className="text-[#fff] w-[80%] mt-5">
               EZ CLICK STAY is committed to delivering a high level of
               expertise, customer service, and attention to detail to the market
               of accommodation booking .
             </p>
           </div>
-          <div className="grid grid-cols-1 gap-8 sm:gap-6 sm:grid-cols-3">
+          <div className="grid grid-cols-1 gap-4 sm:gap-6 sm:grid-cols-2 md:w-1/2">
             <div>
               <h2 className="mb-4 text-sm font-semibold uppercase text-white">
                 Links
@@ -28,10 +30,10 @@ const Footer = () => {
                 CONTACT
               </h2>
               <ul className="text-[#fff]  ">
-                <li className="mb-2">(407)409-4516</li>
-                <li className="mb-2">info@ezclickstay.com</li>
-                <li>
-                  {" "}
+                <li className="mb-2 flex gap-2"><span className="t text-primary_pink"><FaPhone /></span>(407)409-4516</li>
+                <li className="mb-2 flex gap-2"><span className="t text-primary_pink"><MdEmail /></span>info@ezclickstay.com</li>
+                <li className=" flex gap-2">
+                 <span className="t text-primary_pink"><FaLocationDot /></span>
                   <address>8240 Exchange Dr. Ste G-4 </address>
                 </li>
               </ul>

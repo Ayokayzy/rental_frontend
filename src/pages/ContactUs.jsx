@@ -25,11 +25,11 @@ const ContactUs = () => {
         </p>
         <div className="">
           <div className="p-8 bg-white rounded-md shadow-lg mb-12">
-            <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-              <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center justify-center gap-8">
+              {/* <div className="flex items-center gap-4">
                 <FaSkype className="h-8 w-8 text-primary_pink" />
                 <h6 className="text-xs">Unites States</h6>
-              </div>
+              </div> */}
               <div className="flex items-center gap-4">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

@@ -105,8 +105,7 @@ const BookFormMain = ({ getData }) => {
   };
   const handleCheckout = async (e) => {
     e.preventDefault();
-    if (!userId)
-      return <Navigate to="/login" state={{ from: location }} replace />;
+    if (!userId) return navigate("/login", { state: { from: location } });
     const formData = {
       checkInDate: formattedDate,
       checkOutDate: formattedDateOut,
