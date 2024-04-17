@@ -1,13 +1,23 @@
 import { FaSkype } from "react-icons/fa";
+import hero from "../assets/images/contact-title-img.jpg";
 
 const ContactUs = () => {
   return (
     <section className="pb-32 bg-[#F6F7EB] text-[#272932]">
-      <div className="max-w-5xl mx-auto px-4">
-        <div className="pt-20 pb-10">
-          <h1 className="text-4xl font-semibold text-center">Contact us</h1>
+      <div
+        className="h-[450px] relative p-8 flex justify-center items-center"
+        style={{
+          background: `url(${hero}) center top no-repeat`,
+          backgroundSize: "cover",
+        }}
+      >
+        <div className="absolute inset-0 bg-[#1c1919] opacity-50 0 z-10"></div>
+        <div className="pt-20 pb-10 relative z-20 text-center">
+          <h1 className="text-4xl font-semibold text-white">Contact us</h1>
           <div className="w-16 mt-10 border border-primary_pink mx-auto"></div>
         </div>
+      </div>
+      <div className="max-w-5xl mx-auto px-4 mt-12">
         <p className="mb-16">
           It’s easy to rent Aquentro online, over the phone or via contact form.
           If you need help, reach out and a member of our team will help you get
@@ -127,7 +137,12 @@ const ContactUs = () => {
                   <label className="" for="">
                     Name
                   </label>
-                  <input type="text" className="w-full bg-transparent border border-[#272932] px-4 h-10 m-0" id="" placeholder="Name" />
+                  <input
+                    type="text"
+                    className="w-full bg-transparent border border-[#272932] px-4 h-10 m-0"
+                    id=""
+                    placeholder="Name"
+                  />
                 </div>
 
                 <div className="flex flex-col">

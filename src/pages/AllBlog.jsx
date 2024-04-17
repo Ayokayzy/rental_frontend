@@ -14,10 +14,12 @@ const AllBlog = () => {
           backgroundSize: "cover",
         }}
       >
-        <div className="absolute inset-0 bg-[#1c1919] opacity-30 0 z-10"></div>
+        <div className="absolute inset-0 bg-[#1c1919] opacity-50 0 z-10"></div>
         <div className="text-center text-white relative z-20">
-          <p className="text-lg">
-            Planning a vacation in the near future? Read our blog
+          <p className="text-4xl">
+            Planning a vacation in the near future?
+            <br />
+            <span className="font-black text-primary_pink">Read our blog</span>
           </p>
         </div>
       </div>
