@@ -84,7 +84,7 @@ function DecoSection() {
                 Become a host
               </button>
               <button
-                className="about-btn whitespace-nowrap w-[110px] rounded bg-[#fff]  text-[#fe598d] h-[35px] hover:bg-[#fe598d] hover:text-[#fff]"
+                className="about-btn px-8 whitespace-nowrap rounded bg-[#fff]  text-[#fe598d] h-[35px] hover:bg-[#fe598d] hover:text-[#fff]"
                 onClick={gotoblog}
               >
                 Learn More
