@@ -3,6 +3,7 @@ import { useState } from "react";
 import { API_URL } from "../ProtectedRoute";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import getStripe from "./getStripe";
 
 export const registerUser = async (userData, successMessage) => {
   try {
@@ -23,6 +24,38 @@ export const registerUser = async (userData, successMessage) => {
     return data;
   } catch (error) {
     console.error("Error registering user:", error);
+    toast.error(error);
+    // toast.error("", error);
+    throw error;
+  }
+};
+
+export const createStripeAccount = async (
+  userData,
+  token,
+  userId,
+  successMessage
+) => {
+  try {
+    const stripe = await getStripe();
+    const response = await fetch(`${API_URL}/auth/create-stripe-account/${userId}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: token,
+      },
+      body: JSON.stringify(userData),
+    });
+    if (!response.ok) {
+      const errorData = await response.json(); // Assuming the server sends error details in JSON format
+      throw new Error(errorData.message); // Adjust this based on the actual structure of the error response
+    }
+
+    const data = await response.json();
+    toast.success(successMessage);
+    return data;
+  } catch (error) {
+    console.error("Error creating account:", error);
     toast.error(error);
     // toast.error("", error);
     throw error;

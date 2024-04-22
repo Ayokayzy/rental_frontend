@@ -6,8 +6,8 @@ import { useNavigate } from "react-router-dom";
 function DecoSection() {
   const navigate = useNavigate();
 
-  const gotoSign = () => {
-    navigate("register");
+  const gotoCreateStripe = () => {
+    navigate("/create-stripe-account");
   };
   const gotoblog = () => {
     navigate("/all-blog");
@@ -79,7 +79,7 @@ function DecoSection() {
             <div className="about-btn-box flex gap-5 my-8">
               <button
                 className="about-btn whitespace-nowrap px-8 hover:bg-[#fff] hover:text-[#fe598d] bg-[#fe598d] rounded text-[#fff] h-[35px]"
-                onClick={gotoSign}
+                onClick={gotoCreateStripe}
               >
                 Become a host
               </button>

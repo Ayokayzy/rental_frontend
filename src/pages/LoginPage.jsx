@@ -31,7 +31,7 @@ function LoginPage() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    
+
     try {
       const result = await loginUser(formData);
       // console.log(result.token);
@@ -72,8 +72,16 @@ function LoginPage() {
               localStorage.setItem("authToken", res.data.token);
               localStorage.setItem("userId", res.data.user._id);
               toast.success("Login Successfully!!!");
-
-              const origin = location.state?.from?.pathname || "/";
+              let page;
+              if (
+                res.data.user?.privilege === "host" ||
+                res.data.user?.privilege === "admin"
+              ) {
+                page = "/dash";
+              } else {
+                page = "/";
+              }
+              const origin = location.state?.from?.pathname || page;
               navigate(origin, { replace: true });
             } else {
               console.error("Invalid response format:", res);

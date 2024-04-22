@@ -81,7 +81,7 @@ function SignupPage() {
   };
   return (
     <div className="log-box w-[450px] border border-gray-500 relative mx-auto my-[5rem] p-6 grow flex flex-col items-center">
-      <h2 className="text-4xl text-center">Sign up</h2>
+      <h2 className="text-2xl text-center mb-4">Sign up</h2>
       <form className="flex flex-col w-full" onSubmit={handleFormSubmit}>
         <div className="space-y-4">
           <label htmlFor="email" className="flex flex-col">

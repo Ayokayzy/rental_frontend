@@ -22,6 +22,7 @@ import BookListed from "./pages/bookedList.jsx";
 import MyBooking from "./pages/myBokking/index.jsx";
 import MyProperties from "./pages/MyProperties/index.jsx";
 import PropDetailInter from "./pages/PropDetailInter.jsx";
+import CreateStripeAccount from "./pages/CreateStripeAcount.jsx";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -44,6 +45,11 @@ function App() {
         <Route index path={"/"} element={<HomePage />} />
         <Route index path={"/login"} element={<LoginPage />} />
         <Route index path={"/register"} element={<SignupPage />} />
+        <Route
+          index
+          path={"/create-stripe-account"}
+          element={<CreateStripeAccount />}
+        />
         <Route index path={"/contact"} element={<ContactUs />} />
         <Route index path={"/properties"} element={<Properties />} />
         <Route index path={"/propdet"} element={<PropDetail />} />
