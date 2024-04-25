@@ -1,32 +1,60 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { loadUser } from "../../Apis/Auth";
 
 export const initialState = {
-  id: null,
-  name: "",
-  username: "",
-  token: "",
+  user: {},
+  isAuth: false,
+  role: "",
+  loading: false,
+  error: null,
 };
 
 const user = createSlice({
   name: "user",
   initialState,
   reducers: {
-    storeUser: (state, action) => {
-      const { id, name, username, token } = action.payload;
-      state.id = id;
-      state.name = name;
-      state.username = username;
-      state.token = token;
+    storeUser: (state, { payload }) => {
+      if (payload.token) {
+        state.token = payload.token;
+      }
+      state.user = payload.user;
+      state.role = payload.user.privilege;
+      state.isAuth = true;
     },
-    clearUser: (state) => {
+    logout: (state) => {
+      localStorage.removeItem("authToken");
       Object.assign(state, initialState);
-      // state.id = "";
-      // state.name = "";
-      // state.username = "";
-      // state.token = "";
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchUser.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(fetchUser.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      // state.user = payload.user;
+    });
+    builder.addCase(fetchUser.rejected, (state, { error }) => {
+      state.loading = false;
+      state.error = error;
+    });
   },
 });
 
 export default user.reducer;
-export const { storeUser, clearUser } = user.actions;
+export const { storeUser, logout } = user.actions;
+
+export const fetchUser = createAsyncThunk(
+  "user/loadUser",
+  async (_, thunkAPI) => {
+    try {
+      const res = await loadUser();
+      thunkAPI.dispatch(storeUser(res));
+      return res;
+    } catch (err) {
+      console.log({ loadUserErr: err });
+      return thunkAPI.rejectWithValue(err.message);
+    }
+  }
+);

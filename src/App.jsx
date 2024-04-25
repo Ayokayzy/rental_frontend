@@ -23,6 +23,9 @@ import MyBooking from "./pages/myBokking/index.jsx";
 import MyProperties from "./pages/MyProperties/index.jsx";
 import PropDetailInter from "./pages/PropDetailInter.jsx";
 import CreateStripeAccount from "./pages/CreateStripeAcount.jsx";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchUser } from "./Store/userReducer.jsx";
+import Loader from "./components/loader.jsx";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -35,6 +38,15 @@ function ScrollToTop() {
 }
 
 function App() {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state);
+  console.log({ user });
+
+  useEffect(() => {
+    dispatch(fetchUser());
+  }, []);
+
+  if (user?.loading) return <Loader />;
   return (
     <div className="">
       <ScrollToTop />

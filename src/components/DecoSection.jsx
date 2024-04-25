@@ -1,13 +1,25 @@
 import { IoLocation } from "react-icons/io5";
 import "../assets/css/homePage.css";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function DecoSection() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const { user } = useSelector((s) => s);
 
   const gotoCreateStripe = () => {
+    if (!user.isAuth) {
+      return navigate("/login", {
+        state: { from: location.pathname },
+      });
+    }
+    // if (user.role === "user") {
     navigate("/create-stripe-account");
+    // } else {
+    // navigate("/dash");
+    // }
   };
   const gotoblog = () => {
     navigate("/all-blog");

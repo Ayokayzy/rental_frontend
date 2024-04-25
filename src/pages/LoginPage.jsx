@@ -37,12 +37,16 @@ function LoginPage() {
       // console.log(result.token);
       localStorage.setItem("authToken", result.token);
       localStorage.setItem("userId", result?.user?._id);
-      dispatch(storeUser({ token: result.token }));
+      dispatch(storeUser(result));
       toast.success("Login Successfully!!!");
-      // const timeoutId = setTimeout(() => {
-      //   window.location.href = "/";
-      // }, 3500);
-      const origin = location.state?.from?.pathname || "/";
+      console.log({ result });
+      let route;
+      if (result.user.privilege === "user") {
+        route = "/";
+      } else {
+        route = "/dash";
+      }
+      const origin = location.state?.from?.pathname || route;
       navigate(origin, { replace: true });
       return () => clearTimeout(timeoutId);
     } catch (error) {

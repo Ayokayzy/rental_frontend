@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import format from "date-fns/format";
 import Calendar from "./Calendar";
 import { Navigate, useLocation, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const BookFormMain = ({ getData }) => {
   console.log({ getData });
@@ -23,7 +24,7 @@ const BookFormMain = ({ getData }) => {
 
   const [price, setPrice] = useState("");
   const token = localStorage.getItem("authToken");
-  const userId = localStorage.getItem("userId");
+  const { user } = useSelector((s) => s);
   const [sGuest, setSGuest] = useState("");
   // console.log(valueOut);
   const handleDateChangeOut = (valueOut) => {
@@ -95,7 +96,12 @@ const BookFormMain = ({ getData }) => {
     };
 
     try {
-      const result = await CreateBooking(formData, userId, token, propId);
+      const result = await CreateBooking(
+        formData,
+        user?.user?._id,
+        token,
+        propId
+      );
       toast.success("Booked Successfully!!!");
 
       return () => clearTimeout(timeoutId);
@@ -105,7 +111,8 @@ const BookFormMain = ({ getData }) => {
   };
   const handleCheckout = async (e) => {
     e.preventDefault();
-    if (!userId) return navigate("/login", { state: { from: location } });
+    if (!user?.user?._id)
+      return navigate("/login", { state: { from: location } });
     const formData = {
       checkInDate: formattedDate,
       checkOutDate: formattedDateOut,
@@ -114,7 +121,12 @@ const BookFormMain = ({ getData }) => {
     console.log({ formData });
 
     try {
-      const result = await createPaymentIntent(propId, formData, userId, token);
+      const result = await createPaymentIntent(
+        propId,
+        formData,
+        user?.user?._id,
+        token
+      );
       window.location.href = result.url;
       // toast.success("Booked Successfully!!!");
     } catch (error) {

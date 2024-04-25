@@ -64,14 +64,18 @@ const ImageForm = ({
         method: "POST",
         url: "https://api.cloudinary.com/v1_1/dyojshtoe/image/upload",
         data: formData,
-      }).then((response) => {
-        imageUrl = response.data.secure_url;
-        setFormData((prev) => ({
-          ...prev,
-          cover_image: imageUrl,
-        }));
-        setCoverData(imageUrl);
-      });
+      })
+        .then((response) => {
+          imageUrl = response.data.secure_url;
+          setFormData((prev) => ({
+            ...prev,
+            cover_image: imageUrl,
+          }));
+          setCoverData(imageUrl);
+        })
+        .catch((err) => {
+          console.log({ err });
+        });
     }
     // console.log(imageUrl);
 

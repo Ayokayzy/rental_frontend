@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 const PropCard = ({ property }) => {
   return (
     <div className="card-prop w-[400px] bg-white border rounded-lg shadow  border-[#fe598d] relative">
-      <img className="rounded-t-lg" src={property.cover_image} alt="" />
+      <img className="rounded-t-lg" src={property?.cover_image || property.rest_images[0]} alt="" />
       <div className="price-fav-cont absolute top-3 flex justify-between w-full p-2">
         <div className="price-tag bg-[#fe598d] text-[#fff] rounded px-2">
           {property.currency}

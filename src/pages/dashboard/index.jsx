@@ -11,76 +11,66 @@ import { useEffect, useState } from "react";
 import { getUserById } from "../../../Apis/getUser";
 import { getBookingByPropertyOwnerId } from "../../../Apis/Booking";
 import SkeletonDas from "../../components/SkeletonDas";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import Loader from "../../components/loader";
 
 const Dashboard = () => {
-  const [getData, setGetData] = useState(null);
+  const navigate = useNavigate();
   const [getBooked, setBooked] = useState(null);
   const token = localStorage.getItem("authToken");
-  const userId = localStorage.getItem("userId");
-  if (token === null) {
-    window.location.href = "/login";
-  }
-
-  useEffect(() => {
-    const fetchUserData = async () => {
-      try {
-        const data = await getUserById(userId, token);
-        setGetData(data);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    if (userId) {
-      fetchUserData();
-    }
-  }, [userId]);
+  const { user } = useSelector((s) => s);
 
   useEffect(() => {
     const fetchBookingData = async () => {
       try {
-        const data = await getBookingByPropertyOwnerId(userId, token);
+        const data = await getBookingByPropertyOwnerId(user?.user?._id, token);
         setBooked(data);
       } catch (error) {
         console.error(error);
       }
     };
 
-    if (userId) {
+    if (user?.user?._id) {
       fetchBookingData();
     }
-  }, [userId]);
+  }, [user?.user?._id]);
+
+  useEffect(() => {
+    if (user?.role === "user" || !user?.isAuth) {
+      navigate("/");
+    }
+  }, []);
+
+  if (user?.loading) return <Loader />;
 
   return (
     <div className="edit-container py-20">
       <Sidebar />
-      {getData ? (
+      {user?.isAuth ? (
         <div className="dashboard-main2-container">
           <div className="dashboard-main-head">
-            <img
-              src={getData?.user?.profile_picture || profile}
-              alt="profile"
-            />
+            <img src={user?.user?.profile_picture || profile} alt="profile" />
             <div className="dash-details">
-              <h1 className="dasboard-name">{getData?.user?.full_name}</h1>
-              <h2 className="dashboard-job-title">{getData?.user?.username}</h2>
+              <h1 className="dasboard-name">{user?.user?.full_name}</h1>
+              <h2 className="dashboard-job-title">{user?.user?.username}</h2>
               <div className="dash-contact">
                 <div className="dash-contact-mail-phone">
                   <IoMdMail className="dash-head-icon" />
-                  <p className="mail-phone">{getData?.user?.email}</p>
+                  <p className="mail-phone">{user?.user?.email}</p>
                 </div>
-                {getData?.user?.contact_phone && (
+                {user?.user?.contact_phone && (
                   <div className="dash-contact-mail-phone ml-4">
                     <HiPhone className="dash-head-icon" />
-                    <p className="mail-phone">{getData?.user?.contact_phone}</p>
+                    <p className="mail-phone">{user?.user?.contact_phone}</p>
                   </div>
                 )}
               </div>
-              {getData?.user?.city && getData?.user?.nationality && (
+              {user?.user?.city && user?.user?.nationality && (
                 <div className="dash-contact-mail-phone">
                   <MdOutlineLocationOn className="dash-head-icon" />
                   <p className="mail-phone">
-                    {getData?.user?.city}, {getData?.user?.nationality}
+                    {user?.user?.city}, {user?.user?.nationality}
                   </p>
                 </div>
               )}
@@ -168,7 +158,7 @@ const Dashboard = () => {
           </div>
         </div>
       ) : (
-        <SkeletonDas />
+        user?.loading && <SkeletonDas />
       )}
     </div>
   );

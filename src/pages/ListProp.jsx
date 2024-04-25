@@ -133,8 +133,7 @@ const ListProp = () => {
     try {
       const result = await CreateProperty(formData, userId, token);
       toast.success("Property Created Successfully!!!");
-      navigate("/listp")
-      return () => clearTimeout(timeoutId);
+      navigate("/dash")
     } catch (error) {
       toast.error(error.message);
     }

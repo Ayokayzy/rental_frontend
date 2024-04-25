@@ -30,6 +30,30 @@ export const registerUser = async (userData, successMessage) => {
   }
 };
 
+export const loadUser = async () => {
+  const token = localStorage.getItem("authToken");
+  try {
+    const response = await fetch(`${API_URL}/auth/user`, {
+      method: "GET",
+      headers: {
+        Authorization: token,
+      },
+    });
+    if (!response.ok) {
+      const errorData = await response.json(); // Assuming the server sends error details in JSON format
+      throw new Error(errorData.message); // Adjust this based on the actual structure of the error response
+    }
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("Error fetching user:", error);
+    toast.error(error);
+    // toast.error("", error);
+    throw error;
+  }
+};
+
 export const createStripeAccount = async (
   userData,
   token,
@@ -38,14 +62,17 @@ export const createStripeAccount = async (
 ) => {
   try {
     const stripe = await getStripe();
-    const response = await fetch(`${API_URL}/auth/create-stripe-account/${userId}`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: token,
-      },
-      body: JSON.stringify(userData),
-    });
+    const response = await fetch(
+      `${API_URL}/auth/create-stripe-account/${userId}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: token,
+        },
+        body: JSON.stringify(userData),
+      }
+    );
     if (!response.ok) {
       const errorData = await response.json(); // Assuming the server sends error details in JSON format
       throw new Error(errorData.message); // Adjust this based on the actual structure of the error response

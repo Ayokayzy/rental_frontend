@@ -125,8 +125,8 @@ const PriceForm = ({
               value={formData.currency}
               onChange={handleInputChange}
             >
-              <option value="$">USD $</option>
-              <option value="#">NGN #</option>
+              <option value="USD">USD $</option>
+              <option value="NGN">NGN #</option>
             </select>
           </div>
         </div>
