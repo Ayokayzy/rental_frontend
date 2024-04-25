@@ -1,2 +1,2 @@
-// export const API_URL = "https://rental-backend-8mcf.onrender.com/api";
-export const API_URL = "http://localhost:8080/api";
+export const API_URL = import.meta.env.VITE_BASE_URL;
+// export const API_URL = "http://localhost:8080/api";
